@@ -11,7 +11,6 @@ async function getAllPokemon() {
 }
 
 function getPokemonHtml(aPokemon) {
-  
   if (aPokemon.type.length > 1) {
     return `
     <div class="pokemon" data-name="${aPokemon.name}" data-type="${aPokemon.type}" tabindex="1">
@@ -130,6 +129,8 @@ function displayPokedex(allPokemon) {
     pokedexSection.innerHTML = allPokemon.map(getPokemonHtml).join('')
 }
 
+
+
 function getPokemonType(aPokemon) {
   console.log(aPokemon.type)
   
@@ -144,11 +145,6 @@ getAllPokemon().then(aPoke => {
   aPoke.forEach(element => {
     result = result.concat(element.type)
   });
-  // let result2 = []
-  // result.forEach(element => {
-  //   result2 = result2.concat(element)
-  // })
-  
 
   const filterTypes = new Set(result)
   filterTypes.forEach(element => {
@@ -204,27 +200,187 @@ function typeFilter() {
 
 filterType.addEventListener('change', typeFilter)
 
-function orderFilter() {
-  let searchQuery = (this.value)
-  let pokemonTypes = document.getElementsByClassName('pokemon-id');
-  let dataName = document.getElementsByClassName('pokemon')
-  let pokemonDesc = document.getElementsByClassName('pokemon-description')
-  
-  for (let counter = 0; counter < pokemonTypes.length; counter++) {
-    const currentName = pokemonTypes[counter].textContent
-    console.log(currentName)
-    if (currentName.includes(searchQuery)) {
-      pokemonTypes[counter].style.display = 'block'
-      pokemonDesc[counter].style.display = 'block'
-      
-      dataName[counter].style.display = 'block'
-    } else {
-      pokemonTypes[counter].style.display = 'none'
-      pokemonDesc[counter].style.display = 'none'
-      
-      dataName[counter].style.display = 'none'
-    }
-  }
+function orderFilter(aPokemon) {
+  console.log(aPokemon)
+
+  if (aPokemon.type.length > 1) {
+    return `
+    <div class="pokemon" data-name="${aPokemon.name}" data-type="${aPokemon.type}" tabindex="1">
+  <figure class="pokemon-figure">
+    <img src="img/${aPokemon.name.replaceAll('. ', '-').replace('\'', '')}.png" alt="Bulbasaur">
+  </figure>
+  <section class="pokemon-description">
+    <span class="pokemon-id">${aPokemon.id}</span>
+    <h1 class="pokemon-name">${aPokemon.name}</h1>
+    <div class="pokemon-types">
+      <span class="pokemon-type background-${aPokemon.type[0]}">${aPokemon.type[0]}</span>
+      <span class="pokemon-type background-${aPokemon.type[1]}">${aPokemon.type[1]}</span>
+    </div>
+  </section>
+  <section class="pokemon-stats">
+    <div class="stat-row">
+      <div>hp</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.hp / 250 * 100}%">${aPokemon.stats.hp}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>attack</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.attack / 250 * 100}%">${aPokemon.stats.attack}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>defense</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.defense / 250 * 100}%">${aPokemon.stats.defense}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>sp-atk</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats['sp-atk'] / 250 * 100}%">${aPokemon.stats['sp-atk']}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>sp-def</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats['sp-def'] / 250 * 100}%">${aPokemon.stats['sp-def']}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>speed</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.speed / 250 * 100}%">${aPokemon.stats.speed}</div>
+      </div>
+    </div>
+  </section>
+</div>
+    `
+  } else {
+  return  `
+  <div class="pokemon" data-name="${aPokemon.name}" data-type="${aPokemon.type}" tabindex="1">
+  <figure class="pokemon-figure">
+    <img src="img/${aPokemon.name.replaceAll('. ', '-').replace('\'', '')}.png" alt="Bulbasaur">
+  </figure>
+  <section class="pokemon-description">
+    <span class="pokemon-id">${aPokemon.id}</span>
+    <h1 class="pokemon-name">${aPokemon.name}</h1>
+    <div class="pokemon-types">
+      <span class="pokemon-type background-${aPokemon.type[0]}">${aPokemon.type[0]}</span>
+    </div>
+  </section>
+  <section class="pokemon-stats">
+    <div class="stat-row">
+      <div>hp</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.hp / 250 * 100}%">${aPokemon.stats.hp}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>attack</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.attack / 250 * 100}%">${aPokemon.stats.attack}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>defense</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.defense / 250 * 100}%">${aPokemon.stats.defense}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>sp-atk</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats['sp-atk'] / 250 * 100}%">${aPokemon.stats['sp-atk']}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>sp-def</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats['sp-def'] / 250 * 100}%">${aPokemon.stats['sp-def']}</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div>speed</div>
+      <div class="stat-bar">
+        <div class="stat-bar-bg" style="width: ${aPokemon.stats.speed / 250 * 100}%">${aPokemon.stats.speed}</div>
+      </div>
+    </div>
+  </section>
+</div>
+    `
+    
 }
 
-filterSort.addEventListener('change', orderFilter)
+}
+
+let sortedId = []
+let sortedNameAZ =[]
+let sortedNameZA =[]
+function sortPokemonById() {
+getAllPokemon().then(function(data) {
+  data.sort((a, b) => {
+    return b.id - a.id
+  })
+  sortedId = data
+  displayPokedexSort(sortedId)
+})  
+}
+
+function sortPokemonByNameAZ() {
+  getAllPokemon().then(function(data) {
+    data.sort((a, b) => {
+      if(a.name < b.name) {
+      return -1
+      }
+      if(a.name > b.name) {
+      return 1
+      }
+      return 0
+    })
+    sortedNameAZ = data
+    displayPokedexSort(sortedNameAZ)
+    console.log(sortedNameAZ)
+  })  
+  }
+
+function sortPokemonByNameZA() {
+  getAllPokemon().then(function(data) {
+    data.sort((a, b) => {
+      if(a.name < b.name) {
+      return 1
+      }
+      if(a.name > b.name) {
+      return -1
+      }
+      return 0
+    })
+    sortedNameZA = data
+    displayPokedexSort(sortedNameZA)
+    console.log(sortedNameZA)
+  })  
+  }
+
+
+filterSort.addEventListener('change', function() {
+  switch (this.value) {
+    case 'Highest Number (First)':
+      sortPokemonById()
+      break;
+    case 'Lowest Number (First)':
+      getAllPokemon().then(displayPokedex)
+      break;
+    case 'A-Z':
+      sortPokemonByNameAZ()
+      break;
+    case 'Z-A':
+      sortPokemonByNameZA()
+    // default:
+    //   break;
+  }
+} )
+
+function displayPokedexSort(allPokemon) {
+  pokedexSection.innerHTML = allPokemon.map(orderFilter).join('')
+}

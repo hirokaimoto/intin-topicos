@@ -2,7 +2,7 @@
 const pokedexSection = document.querySelector('.pokedex')
 const filterName = document.querySelector('#filter-name')
 const filterType = document.querySelector('#filter-type')
-
+const filterSort = document.querySelector('#sort-type')
 
 async function getAllPokemon() {
     let response = await fetch('/data/pokedex.json')
@@ -203,3 +203,28 @@ function typeFilter() {
 }
 
 filterType.addEventListener('change', typeFilter)
+
+function orderFilter() {
+  let searchQuery = (this.value)
+  let pokemonTypes = document.getElementsByClassName('pokemon-id');
+  let dataName = document.getElementsByClassName('pokemon')
+  let pokemonDesc = document.getElementsByClassName('pokemon-description')
+  
+  for (let counter = 0; counter < pokemonTypes.length; counter++) {
+    const currentName = pokemonTypes[counter].textContent
+    console.log(currentName)
+    if (currentName.includes(searchQuery)) {
+      pokemonTypes[counter].style.display = 'block'
+      pokemonDesc[counter].style.display = 'block'
+      
+      dataName[counter].style.display = 'block'
+    } else {
+      pokemonTypes[counter].style.display = 'none'
+      pokemonDesc[counter].style.display = 'none'
+      
+      dataName[counter].style.display = 'none'
+    }
+  }
+}
+
+filterSort.addEventListener('change', orderFilter)
